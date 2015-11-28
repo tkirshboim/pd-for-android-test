@@ -146,6 +146,7 @@ public class PdTest extends Activity implements OnClickListener, OnEditorActionL
 		PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).registerOnSharedPreferenceChangeListener(this);
 		initGui();
 		bindService(new Intent(this, PdService.class), pdConnection, BIND_AUTO_CREATE);
+		Log.d(TAG, "This class compiles: " + com.noisepages.nettoyeur.midi.MidiDevice.class.toString());
 	};
 
 	@Override
