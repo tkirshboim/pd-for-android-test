@@ -1,4 +1,4 @@
-#N canvas 129 63 619 394 10;
+#N canvas 311 154 619 394 10;
 #X obj 78 116 dac~;
 #X obj 157 81 *~ 1;
 #X obj 158 37 *~ 0.2;
@@ -22,13 +22,18 @@
 #X obj 87 216 sel 0;
 #X obj 132 217 sel 1;
 #X obj 221 153 expr~;
-#X text 217 132 This objects were added to test that they can be created
-;
 #X obj 262 152 fexpr~;
 #X obj 306 152 sigmund~;
 #X obj 365 152 bob~;
-#X obj 221 176 expr;
-#X obj 396 152 fiddle~;
+#X obj 399 151 expr;
+#X obj 432 151 fiddle~;
+#X obj 221 173 bonk~;
+#X obj 263 173 choice;
+#X obj 307 173 loop~;
+#X obj 347 172 lrshift~;
+#X obj 405 174 pique;
+#X text 217 132 test if extra objects can be created;
+#X obj 444 172 stdout;
 #X connect 1 0 0 1;
 #X connect 2 0 1 0;
 #X connect 3 0 0 0;
