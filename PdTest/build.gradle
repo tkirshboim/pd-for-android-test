@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 dependencies {
-    compile 'org.puredata.android:pd-core:1.0.1'
+    compile 'org.puredata.android:pd-core:1.0.2-rc1'
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         minSdkVersion 10
