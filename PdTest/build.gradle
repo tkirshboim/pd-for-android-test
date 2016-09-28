@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 dependencies {
-    compile 'org.puredata.android:pd-core:1.0.2-rc1'
+    compile 'org.puredata.android:pd-core:1.0.2'
 }
 
 android {
