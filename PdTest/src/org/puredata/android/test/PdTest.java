@@ -1,42 +1,37 @@
 /**
- * 
+ *
  * @author Peter Brinkmann (peter.brinkmann@gmail.com)
- * 
+ *
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.
  *
  * simple test case for {@link PdService}
- * 
+ *
  */
 
 package org.puredata.android.test;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-
 import org.puredata.android.io.AudioParameters;
-import org.puredata.android.midi.PdToMidiAdapter;
 import org.puredata.android.service.PdPreferences;
 import org.puredata.android.service.PdService;
 import org.puredata.core.PdBase;
 import org.puredata.core.PdReceiver;
 import org.puredata.core.utils.IoUtils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.media.midi.MidiDevice;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -52,6 +47,14 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
 public class PdTest extends Activity implements OnClickListener, OnEditorActionListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private static final String TAG = "Pd Test";
@@ -65,7 +68,7 @@ public class PdTest extends Activity implements OnClickListener, OnEditorActionL
 	private PdService pdService = null;
 
 	private Toast toast = null;
-	
+
 	private void toast(final String msg) {
 		runOnUiThread(new Runnable() {
 			@Override
@@ -210,7 +213,7 @@ public class PdTest extends Activity implements OnClickListener, OnEditorActionL
 	private void stopAudio() {
 		pdService.stopAudio();
 	}
-	
+
 	private void cleanup() {
 		try {
 			unbindService(pdConnection);
@@ -245,13 +248,25 @@ public class PdTest extends Activity implements OnClickListener, OnEditorActionL
 	}
 
 	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
+										   @NonNull int[] grantResults) {
+		if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+			startAudio();
+		} else {
+			toast("Can't start audio - microphone permission required!");
+		}
+	}
+
+	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.play_button:
 			if (pdService.isRunning()) {
 				stopAudio();
-			} else {
+			} else if (recordAudioPermissionGranted()) {
 				startAudio();
+			} else {
+				requestAudioPermission();
 			}
 		case R.id.left_box:
 			PdBase.sendFloat("left", left.isChecked() ? 1 : 0);
@@ -321,5 +336,15 @@ public class PdTest extends Activity implements OnClickListener, OnEditorActionL
 				break;
 			}
 		}
+	}
+
+	private boolean recordAudioPermissionGranted() {
+		int permissionResult =
+				ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
+		return permissionResult == PackageManager.PERMISSION_GRANTED;
+	}
+
+	private void requestAudioPermission() {
+		ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 0);
 	}
 }

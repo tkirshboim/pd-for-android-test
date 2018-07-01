@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/code
+    docker:
+      - image: bitriseio/docker-android:latest
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - run: ./gradlew clean assembleRelease
+      - store_artifacts:
+          path: PdTest/build/outputs/apk
