@@ -8,6 +8,6 @@ jobs:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
-      - run: ./gradlew clean assembleRelease
+      - run: ./gradlew clean build
       - store_artifacts:
           path: PdTest/build/outputs/apk
