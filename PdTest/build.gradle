@@ -1,16 +1,17 @@
 apply plugin: 'com.android.application'
 
 dependencies {
-    implementation 'org.puredata.android:pd-core:1.1.0'
+    implementation 'org.puredata.android:pd-core:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 27
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
