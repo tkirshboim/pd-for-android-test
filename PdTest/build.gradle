@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
 
 dependencies {
-    implementation 'org.puredata.android:pd-core:1.2.1-rc1'
+    implementation 'io.github.libpd.android:pd-core:1.2.1-rc6'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.noisepages.nettoyeur:midi:1.0.0-rc1'
 }
 
 android {
